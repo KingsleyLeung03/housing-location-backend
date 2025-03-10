@@ -11,8 +11,9 @@ public class Program
         
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         
-        var connectionString = builder.Configuration.GetConnectionString("HousingLocationDb");
+        var connectionString = builder.Configuration["WebAPIDbConnection"];
         builder.Services.AddDbContext<WebAPIDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddScoped<IWebAPIRepo, DbWebAPIRepo>();

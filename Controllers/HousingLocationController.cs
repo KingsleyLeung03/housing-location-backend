@@ -21,7 +21,7 @@ namespace housing_location_backend.Controllers
         [HttpGet("{id}")]
         public ActionResult<HousingLocation> GetHousingLocationById(int id)
         {
-            var housingLocation = _serviceRepo.GetHousingLocationById(id);
+            var housingLocation = _serviceRepo.GetHousingLocationById(id + 1);
             if (housingLocation == null)
             {
                 return NotFound();
