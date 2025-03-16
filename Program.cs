@@ -17,6 +17,17 @@ public class Program
         builder.Services.AddDbContext<WebAPIDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddScoped<IWebAPIRepo, DbWebAPIRepo>();
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost4200",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
         
         var app = builder.Build();
 
@@ -26,8 +37,11 @@ public class Program
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "housing_location_backend v1"));
         }
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.UseRouting();
+
+        app.UseCors("AllowLocalhost4200");
+
         app.MapControllers();
 
         app.Run();
